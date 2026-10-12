@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.List;
 import java.util.Map;
-import org.junit.Assume;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,12 +20,11 @@ import static org.junit.Assert.assertTrue;
  * generate-drop-rates.py). Abyssal Sire -> Unsired is a simple, verified 1/100 single-roll drop,
  * used here as a stable reference point.
  *
- * The fixture is gitignored (see src/test/resources/local-only/README.md) - these tests are
- * skipped rather than failed if it isn't present locally.
+ * Uses the same bundled dataset shipped with the plugin; runs locally and in CI.
  */
 public class DropRateResolverTest
 {
-	private static final String FIXTURE = "/local-only/drop-rates.json";
+	private static final String FIXTURE = "/data/drop-rates.json";
 
 	private DropRateResolver resolver;
 
@@ -39,7 +38,7 @@ public class DropRateResolverTest
 	private static Map<String, Map<String, Double>> loadFixture()
 	{
 		InputStream stream = DropRateResolverTest.class.getResourceAsStream(FIXTURE);
-		Assume.assumeTrue("Local fixture " + FIXTURE + " not present - see src/test/resources/local-only/README.md", stream != null);
+		org.junit.Assert.assertNotNull("Bundled dataset " + FIXTURE + " must be present", stream);
 		Gson gson = new Gson();
 		try (Reader reader = new InputStreamReader(stream))
 		{

@@ -21,7 +21,7 @@ import net.runelite.api.events.ItemSpawned;
 import net.runelite.api.gameval.InventoryID;
 import net.runelite.client.game.ItemManager;
 import net.runelite.http.api.item.ItemPrice;
-import org.junit.Assume;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,13 +31,11 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * The pet-resolution test below needs the real collection-log.json fixture (see
- * src/test/resources/local-only/README.md, gitignored) - all tests in this class are skipped
- * rather than failed if it isn't present locally.
+ * Pet resolution uses the collection-log dataset bundled with the plugin.
  */
 public class ItemIdResolverTest
 {
-	private static final String FIXTURE = "/local-only/collection-log.json";
+	private static final String FIXTURE = "/data/collection-log.json";
 
 	private Client client;
 	private ItemManager itemManager;
@@ -46,7 +44,7 @@ public class ItemIdResolverTest
 	private static Map<String, RarityResolver.CompletionEntry> loadFixture()
 	{
 		InputStream stream = ItemIdResolverTest.class.getResourceAsStream(FIXTURE);
-		Assume.assumeTrue("Local fixture " + FIXTURE + " not present - see src/test/resources/local-only/README.md", stream != null);
+		org.junit.Assert.assertNotNull("Bundled dataset " + FIXTURE + " must be present", stream);
 		Gson gson = new Gson();
 		try (Reader reader = new InputStreamReader(stream))
 		{

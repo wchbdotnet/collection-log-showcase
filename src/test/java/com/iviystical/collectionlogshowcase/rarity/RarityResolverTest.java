@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import net.runelite.api.ItemComposition;
 import net.runelite.client.game.ItemManager;
-import org.junit.Assume;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,12 +26,11 @@ import static org.mockito.Mockito.when;
  * see conversation history for the derivation. These aren't hand-picked to "look right"; they're
  * the actual output of the composite-score + percentile-rank math for these real dataset ids.
  *
- * The fixture is gitignored (see src/test/resources/local-only/README.md) - these tests are
- * skipped rather than failed if it isn't present locally.
+ * Uses the same bundled dataset shipped with the plugin; runs locally and in CI.
  */
 public class RarityResolverTest
 {
-	private static final String FIXTURE = "/local-only/collection-log.json";
+	private static final String FIXTURE = "/data/collection-log.json";
 
 	private ItemManager itemManager;
 	private DropRateResolver dropRateResolver;
@@ -93,7 +92,7 @@ public class RarityResolverTest
 	private static Map<String, RarityResolver.CompletionEntry> loadFixture()
 	{
 		InputStream stream = RarityResolverTest.class.getResourceAsStream(FIXTURE);
-		Assume.assumeTrue("Local fixture " + FIXTURE + " not present - see src/test/resources/local-only/README.md", stream != null);
+		org.junit.Assert.assertNotNull("Bundled dataset " + FIXTURE + " must be present", stream);
 		Gson gson = new Gson();
 		try (Reader reader = new InputStreamReader(stream))
 		{
