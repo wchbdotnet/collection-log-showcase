@@ -37,7 +37,7 @@ CoX delay and chat censoring are off by default. Enable them to hide loot until 
 - **Tedious**: [Tedious Collection Log by evaan](https://github.com/evaan/tedious-collection-log).
 - **Odablock**: [Odablock by DapperMickie](https://github.com/DapperMickie/odablock-sounds).
 
-Choose a **Voice** under **Audio files**. For **Custom WAV**, place your recording in `.runelite/collection-log-showcase/sounds/` and enter its filename. The original plugin's sound effects are not bundled.
+Choose a **Voice** under **Audio files**. For **Custom WAV**, place your recording in `.runelite/plugin-data/collection-log-showcase/sounds/` and enter its filename. Existing custom sounds in the former `.runelite/collection-log-showcase/` folder are migrated automatically when custom audio is used. The original plugin's sound effects are not bundled.
 
 SnakeSteak's original detection, rarity and drop-rate data handling, count tracking, unlock queue, bulk audio and CoX functionality form the foundation of this fork. We also retain its credits to C Engineer, Trailblazer audio and CoX Special Loot Hider (Karambtwo, Rikten X and Fraac).
 

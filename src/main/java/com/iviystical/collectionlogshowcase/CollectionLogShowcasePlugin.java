@@ -18,6 +18,10 @@ import com.iviystical.collectionlogshowcase.rarity.RarityResolver;
 import com.iviystical.collectionlogshowcase.rarity.RarityResult;
 import java.util.Comparator;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.ScheduledExecutorService;
+import javax.inject.Singleton;
+import net.runelite.client.audio.AudioPlayer;
+import com.iviystical.collectionlogshowcase.sound.SoundManager;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -55,6 +59,8 @@ import net.runelite.client.util.Text;
 @Slf4j
 @PluginDescriptor(
 	name = "Collection Log Showcase",
+	internalName = "collection-log-showcase",
+	legacyDataDirectory = "collection-log-showcase",
 	description = "A standalone fork of Collection Log Popup Enhanced with animated popups and creator voices",
 	conflicts = {"Collection Log Popup Enhanced"}
 )
@@ -713,6 +719,15 @@ public class CollectionLogShowcasePlugin extends Plugin
 			result.getCompPercent(), killCount, killCountKind, source,
 			secondaryCount, dropProbability, ambiguousDropRates, held,
 			!"known".equals(resolvedVia) && config.delayCollectionScreenshot() && config.panelStyle() != PanelStyle.AUDIO_ONLY);
+	}
+
+	@Provides
+	@Singleton
+	SoundManager provideSoundManager(AudioPlayer audioPlayer, CollectionLogShowcaseConfig config,
+		ScheduledExecutorService executor)
+	{
+		return new SoundManager(audioPlayer, config, executor,
+			() -> getPluginDirectory().joinSegment("sounds"));
 	}
 
 	@Provides

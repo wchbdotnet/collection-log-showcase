@@ -187,7 +187,7 @@ public interface CollectionLogShowcaseConfig extends Config
 	@ConfigItem(keyName = "collectionVoice", name = "Voice", description = "Bundled collection log clips credited to their source plugins", position = 0, section = audioFilesSection)
 	default CollectionVoice collectionVoice() { return CollectionVoice.C_ENGINEER; }
 
-	@ConfigItem(keyName = "customSoundFile", name = "Custom WAV filename", description = "For Custom voice: filename inside .runelite/collection-log-showcase/sounds/", position = 1, section = audioFilesSection)
+	@ConfigItem(keyName = "customSoundFile", name = "Custom WAV filename", description = "For Custom voice: filename inside .runelite/plugin-data/collection-log-showcase/sounds/", position = 1, section = audioFilesSection)
 	default String customSoundFile() { return "custom.wav"; }
 
 	@ConfigItem(
