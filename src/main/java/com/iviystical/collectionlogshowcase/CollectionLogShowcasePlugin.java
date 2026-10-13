@@ -165,6 +165,9 @@ public class CollectionLogShowcasePlugin extends Plugin
 
 	private PreviewTier previousPreviewTier = PreviewTier.NONE;
 
+	@Inject
+	private ConfigManager configManager;
+
 	// The real notification title while it is swapped for SPOOFED_NOTIFICATION_TITLE, else null.
 	private String spoofedNotificationTitle;
 
@@ -176,6 +179,8 @@ public class CollectionLogShowcasePlugin extends Plugin
 	@Override
 	protected void startUp() throws Exception
 	{
+		SettingsMigration.initializePreview(configManager);
+		previousPreviewTier = PreviewTier.NONE;
 		eventBus.register(itemIdResolver);
 		eventBus.register(killCountTracker);
 		eventBus.register(coxChatCensor);

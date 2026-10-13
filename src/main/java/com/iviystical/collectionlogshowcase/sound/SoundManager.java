@@ -3,7 +3,9 @@ package com.iviystical.collectionlogshowcase.sound;
 import com.iviystical.collectionlogshowcase.CollectionLogShowcaseConfig;
 import com.iviystical.collectionlogshowcase.rarity.RarityTier;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadLocalRandom;
 import javax.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.client.util.Filepath;
@@ -14,6 +16,9 @@ import net.runelite.client.audio.AudioPlayer;
 @Singleton
 public class SoundManager
 {
+    private static final CollectionVoice[] BUNDLED_VOICES = Arrays.stream(CollectionVoice.values())
+        .filter(voice -> voice.resource() != null).toArray(CollectionVoice[]::new);
+    private int previousRandomIndex = -1;
     @FunctionalInterface
     public interface DirectoryProvider
     {
@@ -37,7 +42,8 @@ public class SoundManager
     {
         int volume = config.soundVolume();
         if (!config.soundEnabled() || volume <= 0) { return; }
-        CollectionVoice voice = config.collectionVoice();
+        CollectionVoice selection = config.collectionVoice();
+        CollectionVoice voice = selection == CollectionVoice.RANDOM ? randomVoice() : selection;
         String customFilename = config.customSoundFile();
         executor.execute(() -> {
             try
@@ -66,5 +72,13 @@ public class SoundManager
             }
             catch (Exception e) { log.warn("Failed to play collection log voice {}", voice, e); }
         });
+    }
+
+    private synchronized CollectionVoice randomVoice()
+    {
+        int index = ThreadLocalRandom.current().nextInt(BUNDLED_VOICES.length - (previousRandomIndex < 0 ? 0 : 1));
+        if (previousRandomIndex >= 0 && index >= previousRandomIndex) { index++; }
+        previousRandomIndex = index;
+        return BUNDLED_VOICES[index];
     }
 }

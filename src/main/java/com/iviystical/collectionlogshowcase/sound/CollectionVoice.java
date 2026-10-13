@@ -7,6 +7,7 @@ public enum CollectionVoice
     BOATY_2("B0aty - variant 2", "boaty-2.wav"),
     TEDIOUS("Tedious", "tedious.wav"),
     ODABLOCK("Odablock", "odablock.wav"),
+    RANDOM("Random", null),
     CUSTOM("Custom WAV", null);
 
     private final String label;

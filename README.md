@@ -20,7 +20,7 @@ Celebrate new collection log slots with a sliding drawer reveal, clear pixel tex
 
 1. Enable **Collection log - New addition notification** and **New addition popup** in the game's settings. Showcase replaces the visible popup while keeping screenshot support.
 2. Under **Popup / Mode**, choose **Showcase**, or **Native** to keep the standard game popup with your selected audio.
-3. Choose a tier under **Preview** to try it. Each selection plays once; enable **Loop** to repeat. Preview counts are simulated for layout testing.
+3. Preview and Loop start off on first activation. Choose a tier under **Preview** to try it. Each selection plays once; enable **Loop** to repeat. Preview counts are simulated for layout testing.
 
 Drop rate is the default primary statistic. Ownership, kill/activity counts and glow are off by default. Counts appear on real unlocks only when matching game data is available; drop rates may be unknown or show a range.
 
@@ -37,7 +37,7 @@ CoX delay and chat censoring are off by default. Enable them to hide loot until 
 - **Tedious**: [Tedious Collection Log by evaan](https://github.com/evaan/tedious-collection-log).
 - **Odablock**: [Odablock by DapperMickie](https://github.com/DapperMickie/odablock-sounds).
 
-Choose a **Voice** under **Audio files**. For **Custom WAV**, place your recording in `.runelite/plugin-data/collection-log-showcase/sounds/` and enter its filename. Existing custom sounds in the former `.runelite/collection-log-showcase/` folder are migrated automatically when custom audio is used. The original plugin's sound effects are not bundled.
+Choose a **Voice** under **Audio files**. **Random** picks from all five bundled clips for each unlock, avoiding consecutive repeats. For **Custom WAV**, place your recording in `.runelite/plugin-data/collection-log-showcase/sounds/` and enter its filename. Existing custom sounds in the former `.runelite/collection-log-showcase/` folder are migrated automatically when custom audio is used. The original plugin's sound effects are not bundled.
 
 SnakeSteak's original detection, rarity and drop-rate data handling, count tracking, unlock queue, bulk audio and CoX functionality form the foundation of this fork. We also retain its credits to C Engineer, Trailblazer audio and CoX Special Loot Hider (Karambtwo, Rikten X and Fraac).
 

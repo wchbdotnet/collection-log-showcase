@@ -12,6 +12,28 @@ import static org.mockito.ArgumentMatchers.*;
 public class SettingsMigrationTest
 {
     @Test
+    public void firstActivationDisablesPreviewAndLoopWithoutImportingLegacyPreview()
+    {
+        ConfigManager manager = mock(ConfigManager.class);
+        when(manager.getConfiguration(SettingsMigration.LEGACY, "previewTier")).thenReturn("RANDOM");
+        SettingsMigration.migrate(manager);
+        verify(manager, never()).setConfiguration(SettingsMigration.GROUP, "previewTier", "RANDOM");
+        SettingsMigration.initializePreview(manager);
+        verify(manager).setConfiguration(SettingsMigration.GROUP, "previewTier", "NONE");
+        verify(manager).setConfiguration(SettingsMigration.GROUP, "previewLoop", false);
+        verify(manager).setConfiguration(SettingsMigration.GROUP, "previewInitialized", true);
+    }
+
+    @Test
+    public void laterActivationsPreserveExplicitPreviewChoices()
+    {
+        ConfigManager manager = mock(ConfigManager.class);
+        when(manager.getConfiguration(SettingsMigration.GROUP, "previewInitialized")).thenReturn("true");
+        SettingsMigration.initializePreview(manager);
+        verify(manager, never()).setConfiguration(anyString(), anyString(), any());
+    }
+
+    @Test
     public void legacyStylesAndAudioMigrateWithoutWritingUpstream()
     {
         ConfigManager manager = mock(ConfigManager.class);

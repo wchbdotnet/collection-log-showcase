@@ -8,12 +8,20 @@ final class SettingsMigration
     static final String GROUP = "collection-log-showcase";
     static final String LEGACY = "collection-log-popup-enhanced";
     private static final String[] KEYS = {
-        "previewTier", "rarityBasis", "valueUncommonThreshold", "valueRareThreshold", "valueVeryRareThreshold",
+        "rarityBasis", "valueUncommonThreshold", "valueRareThreshold", "valueVeryRareThreshold",
         "rightPanelStat", "bulkUnlockSfx", "showProgressBar", "compactShowOwnership",
         "compactShimmer", "compactTextColour", "overlayDisplaySeconds", "overlayScalePercent",
         "backgroundOpacity", "foregroundOpacity", "colourCaption",
         "delayCoxPopupUntilChest", "coxChatCensor"
     };
+
+    static void initializePreview(ConfigManager manager)
+    {
+        if (manager.getConfiguration(GROUP, "previewInitialized") != null) { return; }
+        manager.setConfiguration(GROUP, "previewTier", "NONE");
+        manager.setConfiguration(GROUP, "previewLoop", false);
+        manager.setConfiguration(GROUP, "previewInitialized", true);
+    }
 
     static void migrate(ConfigManager manager)
     {

@@ -22,7 +22,7 @@ public class VoiceAudioTest
     {
         for (CollectionVoice voice : CollectionVoice.values())
         {
-            if (voice == CollectionVoice.CUSTOM) { continue; }
+            if (voice.resource() == null) { continue; }
             try (InputStream input = getClass().getResourceAsStream(voice.resource()))
             {
                 assertNotNull(voice.toString(), input);
@@ -111,6 +111,36 @@ public class VoiceAudioTest
         verify(directory).createDirectories();
         verify(sound).isFile();
         verifyNoInteractions(player);
+    }
+
+    @Test
+    public void randomSelectsABundledVoicePerPlayWithoutImmediateRepeats() throws Exception
+    {
+        CollectionLogShowcaseConfig config = customConfig("custom.wav");
+        when(config.collectionVoice()).thenReturn(CollectionVoice.RANDOM);
+        AudioPlayer player = mock(AudioPlayer.class);
+        ScheduledExecutorService executor = mock(ScheduledExecutorService.class);
+        SoundManager.DirectoryProvider directory = mock(SoundManager.DirectoryProvider.class);
+        doAnswer(invocation -> { ((Runnable) invocation.getArgument(0)).run(); return null; })
+            .when(executor).execute(any(Runnable.class));
+        SoundManager manager = new SoundManager(player, config, executor, directory);
+        for (int i = 0; i < 30; i++) { manager.play(RarityTier.COMMON); }
+        ArgumentCaptor<String> clips = ArgumentCaptor.forClass(String.class);
+        verify(player, times(30)).play(eq(SoundManager.class), clips.capture(), anyFloat());
+        java.util.Set<String> bundled = new java.util.HashSet<>();
+        for (CollectionVoice voice : CollectionVoice.values())
+        {
+            if (voice.resource() != null) { bundled.add(voice.resource()); }
+        }
+        String previous = null;
+        for (String clip : clips.getAllValues())
+        {
+            assertTrue(bundled.contains(clip));
+            assertNotEquals(previous, clip);
+            previous = clip;
+        }
+        verifyNoInteractions(directory);
+        assertEquals(CollectionVoice.RANDOM, config.collectionVoice());
     }
 
     private CollectionLogShowcaseConfig customConfig(String filename)
