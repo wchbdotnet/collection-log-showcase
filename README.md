@@ -1,7 +1,5 @@
 # Collection Log Showcase
 
-A compact, animated collection log popup for RuneLite, by **IVIystical**.
-
 **A standalone fork of [Collection Log Popup Enhanced](https://runelite.net/plugin-hub/show/collection-log-popup-enhanced) by SnakeSteak.** Huge thanks to SnakeSteak for the original plugin and the functionality this fork builds on. [View the original project](https://github.com/TimHeessels/collection-log-popup-enhanced).
 
 ![Collection Log Showcase animated popup](docs/showcase.webp)
