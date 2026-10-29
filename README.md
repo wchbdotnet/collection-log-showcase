@@ -4,7 +4,7 @@ A compact, animated collection log popup for RuneLite, by **IVIystical**.
 
 **A standalone fork of [Collection Log Popup Enhanced](https://runelite.net/plugin-hub/show/collection-log-popup-enhanced) by SnakeSteak.** Huge thanks to SnakeSteak for the original plugin and the functionality this fork builds on. [View the original project](https://github.com/TimHeessels/collection-log-popup-enhanced).
 
-![Collection Log Showcase animated popup](docs/showcase.gif)
+![Collection Log Showcase animated popup](docs/showcase.webp)
 
 ## What it does
 
@@ -43,4 +43,4 @@ SnakeSteak's original detection, rarity and drop-rate data handling, count track
 
 See [LICENSE](LICENSE), [third-party notices](THIRD_PARTY_NOTICES.md) and [audio sources and licences](src/main/resources/licenses) for attribution and exact source revisions. No creator endorsement is implied.
 
-*In development; not yet submitted to the Plugin Hub.*
+Available on the [RuneLite Plugin Hub](https://runelite.net/plugin-hub/show/collection-log-showcase).
