@@ -104,21 +104,12 @@ public class CollectionLogOverlay extends Overlay
 		Integer secondaryKillCount, Double dropProbability, List<DropRateResolver.SourceRate> ambiguousDropRates,
 		boolean held)
 	{
-		enqueue(itemName, itemId, tier, price, highAlch, compPercent, killCount, killCountKind,
-			killCountSource, secondaryKillCount, dropProbability, ambiguousDropRates, held, false);
-	}
-
-	public void enqueue(String itemName, int itemId, RarityTier tier, long price, boolean highAlch,
-		Double compPercent, Integer killCount, KillCountKind killCountKind, String killCountSource,
-		Integer secondaryKillCount, Double dropProbability, List<DropRateResolver.SourceRate> ambiguousDropRates,
-		boolean held, boolean screenshotPending)
-	{
 		// The overlay was fully idle right before this item arrived, so it's the first of a fresh
 		// batch - the only one that plays a sound when bulkUnlockSfx is on. A held item can't claim
 		// this: it shows later, so #releaseHeld works it out again at the point it's let through.
 		boolean batchStart = !held && queue.isEmpty() && current == null;
 		queue.addLast(new PendingItem(itemName, itemId, tier, price, highAlch, compPercent, killCount,
-			killCountKind, killCountSource, secondaryKillCount, dropProbability, ambiguousDropRates, batchStart, held, false, screenshotPending));
+			killCountKind, killCountSource, secondaryKillCount, dropProbability, ambiguousDropRates, batchStart, held, false));
 	}
 
 	public void clear()
@@ -407,11 +398,9 @@ public class CollectionLogOverlay extends Overlay
 		}
 
 		// Fully open: the fold has finished and the icon has popped in.
-		if ((current.isReleased() || current.isScreenshotPending())
-			&& now - notificationStartMillis >= (config.delayCollectionScreenshot() ? 1500 : FOLD_MILLIS + ICON_POP_MILLIS))
+		if (current.isReleased() && now - notificationStartMillis >= FOLD_MILLIS + ICON_POP_MILLIS)
 		{
 			current.setReleased(false);
-			current.setScreenshotPending(false);
 			if (releasedFullyOpenListener != null)
 			{
 				releasedFullyOpenListener.accept(current.getItemName());
@@ -641,8 +630,6 @@ public class CollectionLogOverlay extends Overlay
 		// Let through by #releaseHeld and not yet reported to releasedFullyOpenListener.
 		@Setter
 		private boolean released;
-		@Setter
-		private boolean screenshotPending;
 	}
 
 	@Value

@@ -87,9 +87,6 @@ public interface CollectionLogShowcaseConfig extends Config
 	@ConfigItem(keyName = "previewLoop", name = "Loop", description = "Repeat the selected preview after it closes", position = 1, section = previewSection)
 	default boolean previewLoop() { return false; }
 
-	@ConfigItem(keyName = "delayCollectionScreenshot", name = "Delay collection screenshot", description = "Wait 1.5 seconds after the drawer opens before taking popup-based collection screenshots. Requires Screenshot plugin; chat-only screenshots use native timing.", position = 10, section = appearanceSection)
-	default boolean delayCollectionScreenshot() { return true; }
-
 	@ConfigItem(
 		keyName = "rarityBasis",
 		name = "Rarity based on",

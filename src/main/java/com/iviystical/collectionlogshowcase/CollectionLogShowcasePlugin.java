@@ -305,7 +305,7 @@ public class CollectionLogShowcasePlugin extends Plugin
 	public void onScriptPreFired(ScriptPreFired scriptPreFired)
 	{
 		if (scriptPreFired.getScriptId() != ScriptID.NOTIFICATION_DELAY || spoofedNotificationTitle != null
-			|| !(isHeldCoxNotification() || shouldDelayCollectionScreenshot()))
+			|| !isHeldCoxNotification())
 		{
 			return;
 		}
@@ -397,13 +397,6 @@ public class CollectionLogShowcasePlugin extends Plugin
 			: client.getVarcStrValue(VarClientID.NOTIFICATION_TITLE);
 		return COLLECTION_LOG_NOTIFICATION_TITLE.equalsIgnoreCase(title)
 			&& CoxLootParser.notificationUnique(client.getVarcStrValue(VarClientID.NOTIFICATION_MAIN)) != null;
-	}
-
-	private boolean shouldDelayCollectionScreenshot()
-	{
-		return config.delayCollectionScreenshot() && config.panelStyle() != PanelStyle.AUDIO_ONLY
-			&& client.getVarbitValue(VarbitID.OPTION_COLLECTION_NEW_ITEM) != COLLECTION_NEW_ITEM_CHAT_ONLY
-			&& COLLECTION_LOG_NOTIFICATION_TITLE.equalsIgnoreCase(client.getVarcStrValue(VarClientID.NOTIFICATION_TITLE));
 	}
 
 	private void restoreNotificationTitle()
@@ -722,8 +715,7 @@ public class CollectionLogShowcasePlugin extends Plugin
 
 		collectionLogOverlay.enqueue(itemName, result.getItemId(), result.getTier(), result.getPrice(), result.isHighAlch(),
 			result.getCompPercent(), killCount, killCountKind, source,
-			secondaryCount, dropProbability, ambiguousDropRates, held,
-			!"known".equals(resolvedVia) && config.delayCollectionScreenshot() && config.panelStyle() != PanelStyle.AUDIO_ONLY);
+			secondaryCount, dropProbability, ambiguousDropRates, held);
 	}
 
 	@Provides

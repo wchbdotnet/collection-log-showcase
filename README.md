@@ -22,8 +22,6 @@ Celebrate new collection log slots with a sliding drawer reveal, clear pixel tex
 
 Drop rate is the default primary statistic. Ownership, kill/activity counts and glow are off by default. Counts appear on real unlocks only when matching game data is available; drop rates may be unknown or show a range.
 
-**Delay collection screenshot** waits 1.5 seconds after each popup starts so the reveal can finish. It requires RuneLite's Screenshot plugin with collection log captures enabled. Chat-only screenshots keep their normal timing.
-
 CoX delay and chat censoring are off by default. Enable them to hide loot until the reward chest, storage or bank is opened. Avoid enabling overlapping features in CoX Special Loot Hider. Showcase and the original popup plugin cannot run together.
 
 ## Audio & credits

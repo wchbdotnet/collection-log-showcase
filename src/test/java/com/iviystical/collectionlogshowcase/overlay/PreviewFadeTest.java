@@ -48,26 +48,31 @@ public class PreviewFadeTest
     }
 
     @Test
-    public void screenshotWaitsForRevealAndDoesNotRepeat()
+    public void onlyReleasedCoxItemsTriggerTheScreenshotCallback()
     {
-        Client client = mock(Client.class);
-        when(client.getViewportWidth()).thenReturn(800);
-        CollectionLogShowcaseConfig config = new CollectionLogShowcaseConfig() {};
-        AtomicLong clock = new AtomicLong();
-        CollectionLogOverlay overlay = new CollectionLogOverlay(client, mock(ItemManager.class), config, mock(SoundManager.class), clock::get);
-        java.util.function.Consumer<String> captured = mock(java.util.function.Consumer.class);
-        overlay.setReleasedFullyOpenListener(captured);
-        overlay.enqueue("Mask of Ranul", -1, RarityTier.UNCOMMON, 8511, false, null, null, null, null, null, .001, List.of(), false, true);
-        render(overlay);
-        clock.set(1499);
-        render(overlay);
-        verifyNoInteractions(captured);
-        clock.set(1500);
-        render(overlay);
-        clock.set(1600);
-        render(overlay);
-        verify(captured, times(1)).accept("Mask of Ranul");
-        assertFalse(config.previewLoop());
+        for (boolean held : new boolean[] {false, true})
+        {
+            Client client = mock(Client.class);
+            when(client.getViewportWidth()).thenReturn(800);
+            CollectionLogShowcaseConfig config = new CollectionLogShowcaseConfig() {};
+            AtomicLong clock = new AtomicLong();
+            CollectionLogOverlay overlay = new CollectionLogOverlay(client, mock(ItemManager.class), config, mock(SoundManager.class), clock::get);
+            java.util.function.Consumer<String> captured = mock(java.util.function.Consumer.class);
+            overlay.setReleasedFullyOpenListener(captured);
+            overlay.enqueue("Dexterous prayer scroll", -1, RarityTier.RARE, 1000000, false,
+                null, null, null, null, null, .01, List.of(), held);
+            if (held) { overlay.releaseHeld(); }
+            render(overlay);
+            clock.set(949);
+            render(overlay);
+            verifyNoInteractions(captured);
+            clock.set(950);
+            render(overlay);
+            clock.set(1600);
+            render(overlay);
+            if (held) { verify(captured, times(1)).accept("Dexterous prayer scroll"); }
+            else { verifyNoInteractions(captured); }
+        }
     }
 
     private BufferedImage render(CollectionLogOverlay overlay)
